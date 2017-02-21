@@ -3,7 +3,7 @@ require('styles/App.css');
 
 import React from 'react';
 
-let yeomanImage = require('../images/yeoman.png');
+// let yeomanImage = require('../images/yeoman.png');
 
 class AppComponent extends React.Component {
   render() {
@@ -12,12 +12,12 @@ class AppComponent extends React.Component {
         <section className="todoapp">
           <header className="header">
             <h1>todos</h1>
-            <input className="new-todo" placeholder="What needs to be done?" autofocus />
+            <input className="new-todo" placeholder="What needs to be done?" autoFocus />
           </header>
           {/*This section should be hidden by default and shown when there are todos*/}
           <section className="main">
             <input className="toggle-all" type="checkbox" />
-            <label for="toggle-all">Mark all as complete</label>
+            {/*<label for="toggle-all">Mark all as complete</label>*/}
             <ul className="todo-list">
               {/*These are here just to show the structure of the list items*/}
               {/*List items should get the class `editing` when editing and `completed` when marked as completed*/}
