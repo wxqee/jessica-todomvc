@@ -8,17 +8,37 @@ class Todo extends React.Component {
     this.state = {
       editing: false
     };
+
+    this.editInput = null;
   }
 
   render() {
     return (
       <li className={this.state.editing ? "editing" : (this.props.completed ? "completed" : "view")}>
         <div className="view">
-          <input className="toggle" type="checkbox" checked={this.props.completed} />
-          <label>{this.props.text}</label>
+          <input
+            className="toggle"
+            type="checkbox"
+            checked={this.props.completed}
+            onChange={(e) => this.props.onEdit({completed: e.target.checked})}
+          />
+          <label
+            onDoubleClick={() => {
+              this.setState({editing: true}, () => this.editInput.focus());
+            }}
+          >{this.props.text}</label>
           <button className="destroy" onClick={this.props.onRemove} />
         </div>
-        <input className="edit" value="Create a TodoMVC template" />
+        <Input
+          ref={i => this.editInput = i}
+          className="edit"
+          value={this.props.text}
+          onValueChange={(text) => {
+            this.props.onEdit({text});
+            this.setState({editing: false});
+          }}
+          onBlur={() => this.setState({editing: false})}
+        />
       </li>
     );
   }
@@ -31,6 +51,18 @@ class Input extends React.Component {
     this.state = {
       value: ''
     };
+
+    this.input = null;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value && this.state.value != nextProps.value) {
+      this.setState({value: nextProps.value});
+    }
+  }
+
+  focus() {
+    this.input.focus();
   }
 
   render() {
@@ -38,6 +70,7 @@ class Input extends React.Component {
 
     let {
       value,
+      ref,
       onValueChange = defaultFunc,
       onChange = defaultFunc,
       onKeyPress = defaultFunc,
@@ -47,6 +80,7 @@ class Input extends React.Component {
     return (
       <input
         {...props}
+        ref={i => this.input = i}
         value={this.state.value}
         onChange={e => {
           this.setState({value: e.target.value});
@@ -87,7 +121,12 @@ class TodoApp extends React.Component {
           {/*These are here just to show the structure of the list items*/}
           {/*List items should get the class `editing` when editing and `completed` when marked as completed*/}
           {this.props.todos.map(todo =>
-            <Todo key={todo.id} {...todo} onRemove={() => this.props.onRemoveTodo(todo.id)} />
+            <Todo
+              key={todo.id}
+              {...todo}
+              onEdit={(changes) => this.props.onEditTodo(todo.id, Object.assign({}, todo, {...changes}))}
+              onRemove={() => this.props.onRemoveTodo(todo.id)}
+            />
           )}
         </ul>
       </section>
@@ -98,7 +137,7 @@ class TodoApp extends React.Component {
     return (
       <footer className="footer">
         {/*This should be `0 items left` by default*/}
-        <span className="todo-count"><strong>0</strong> item left</span>
+        <span className="todo-count"><strong>{this.props.todos.filter(i => !i.completed).length}</strong> item left</span>
         {/*Remove this if you don't implement routing*/}
         <ul className="filters">
           <li>

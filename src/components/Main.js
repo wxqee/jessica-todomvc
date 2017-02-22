@@ -36,6 +36,8 @@ class AppComponent extends React.Component {
   handleAddTodo(text) {
     let {todos} = this.state;
 
+    text = text.trim();
+
     todos.push(Object.assign({}, {text}, {id: this.genId()}));
 
     this.setState({todos});
