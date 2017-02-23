@@ -1,5 +1,6 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
+
+import Input from './Input.js';
 
 class Todo extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Todo extends React.Component {
 
   render() {
     return (
-      <li className={this.state.editing ? "editing" : (this.props.completed ? "completed" : "view")}>
+      <li className={this.state.editing ? 'editing' : (this.props.completed ? 'completed' : 'view')}>
         <div className="view">
           <input
             className="toggle"
@@ -40,60 +41,6 @@ class Todo extends React.Component {
           onBlur={() => this.setState({editing: false})}
         />
       </li>
-    );
-  }
-}
-
-class Input extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      value: ''
-    };
-
-    this.input = null;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value && this.state.value != nextProps.value) {
-      this.setState({value: nextProps.value});
-    }
-  }
-
-  focus() {
-    this.input.focus();
-  }
-
-  render() {
-    let defaultFunc = () => {};
-
-    let {
-      value,
-      ref,
-      onValueChange = defaultFunc,
-      onChange = defaultFunc,
-      onKeyPress = defaultFunc,
-      ...props
-    } = this.props;
-
-    return (
-      <input
-        {...props}
-        ref={i => this.input = i}
-        value={this.state.value}
-        onChange={e => {
-          this.setState({value: e.target.value});
-          onChange(e);
-        }}
-        onKeyPress={e => {
-          if (e.charCode == 13) {
-            onValueChange(this.state.value);
-            this.setState({value: ''});
-          }
-          onKeyPress(e);
-        }}
-      />
     );
   }
 }
