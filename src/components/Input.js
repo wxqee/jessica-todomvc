@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {splitProps} from './utils/PropTypes.js';
 
 const propTypes = {
-  value: PropTypes.bool,
+  value: PropTypes.string,
   onValueChange: PropTypes.func,
   onChange: PropTypes.func,
   onKeyPress: PropTypes.func

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from './Input.js';
+import InputCheckBox from './InputCheckBox.js';
 
 class Todo extends React.Component {
   constructor(props) {
@@ -46,6 +47,26 @@ class Todo extends React.Component {
 }
 
 class TodoApp extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      todos: props.todos || []
+    }
+  }
+
+  toggleToCompleteAll(completeAllChecked) {
+    let todos = this.state.todos;
+
+    todos.forEach(todo => {
+      todo.completed = completeAllChecked;
+    });
+
+    this.setState({todos});
+
+    this.props.onChangeTodos(todos);
+  }
+
   renderHeader() {
     return (
       <header className="header">
@@ -62,7 +83,7 @@ class TodoApp extends React.Component {
   renderTodoListMain() {
     return (
       <section className="main">
-        <input className="toggle-all" type="checkbox" />
+        <InputCheckBox ref="completeAll" onChange={this.toggleToCompleteAll.bind(this)} />
         {/*<label for="toggle-all">Mark all as complete</label>*/}
         <ul className="todo-list">
           {/*These are here just to show the structure of the list items*/}

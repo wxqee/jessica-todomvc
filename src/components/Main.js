@@ -51,6 +51,14 @@ class AppComponent extends React.Component {
     this.setState({todos});
   }
 
+  handleChangeTodos(newTodos) {
+    let {todos} = this.state;
+
+    todos = newTodos;
+
+    this.setState({todos});
+  }
+
   render() {
     return (
       <TodoApp
@@ -58,6 +66,7 @@ class AppComponent extends React.Component {
         onRemoveTodo={this.handleRemoveTodo.bind(this)}
         onAddTodo={this.handleAddTodo.bind(this)}
         onEditTodo={this.handleEditTodo.bind(this)}
+        onChangeTodos={this.handleChangeTodos.bind(this)}
       />);
   }
 }
