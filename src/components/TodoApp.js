@@ -11,18 +11,12 @@ class TodoApp extends React.Component {
     super(props);
 
     this.state = {
-      todos: this.getCurrentModeTodos(props)
+      todos: props.todos || []
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    let todos = this.getCurrentModeTodos(nextProps);
-
-    this.setState({todos});
-  }
-
-  getCurrentModeTodos(props) {
-    let todos = props.todos || [];
+  getCurrentModeTodos() {
+    let todos = this.state.todos;
 
     if (isActiveMode()) {
       todos = todos.filter(todo => !todo.completed);
@@ -66,7 +60,7 @@ class TodoApp extends React.Component {
         <ul className="todo-list">
           {/*These are here just to show the structure of the list items*/}
           {/*List items should get the class `editing` when editing and `completed` when marked as completed*/}
-          {this.state.todos.map(todo =>
+          {this.getCurrentModeTodos().map(todo =>
             <Todo
               key={todo.id}
               {...todo}
