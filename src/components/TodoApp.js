@@ -1,52 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import Todo from './Todo.js';
 import Input from './Input.js';
 import InputCheckBox from './InputCheckBox.js';
 import { isActiveMode, isCompletedMode } from './utils/AppUtil.js';
-
-class Todo extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      editing: false
-    };
-
-    this.editInput = null;
-  }
-
-  render() {
-    return (
-      <li className={this.state.editing ? 'editing' : (this.props.completed ? 'completed' : 'view')}>
-        <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            checked={this.props.completed}
-            onChange={(e) => this.props.onEdit({completed: e.target.checked})}
-          />
-          <label
-            onDoubleClick={() => {
-              this.setState({editing: true}, () => this.editInput.focus());
-            }}
-          >{this.props.text}</label>
-          <button className="destroy" onClick={this.props.onRemove} />
-        </div>
-        <Input
-          ref={i => this.editInput = i}
-          className="edit"
-          value={this.props.text}
-          onValueChange={(text) => {
-            this.props.onEdit({text});
-            this.setState({editing: false});
-          }}
-          onBlur={() => this.setState({editing: false})}
-        />
-      </li>
-    );
-  }
-}
 
 class TodoApp extends React.Component {
   constructor(props) {
