@@ -1,6 +1,38 @@
 import React from 'react';
 
+import TodoActions from '../actions/TodoAction.js';
+
+const ENTER_KEY = 13;
+
+/* eslint-disable */
 export default class TodoMVC extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.newTodo = '';
+  }
+
+  handleNewTodoKeyDown(e) {
+    if (e.keyCode !== ENTER_KEY) {
+      return;
+    }
+
+    e.preventDefault();
+
+    let title = this.newTodo.trim();
+
+    if (title) {
+      TodoActions.addTodo(title);
+      e.target.value = '';
+    }
+  }
+
+  handleNewTodoChange(e) {
+    e.preventDefault();
+
+    this.newTodo = e.target.value;
+  }
+
   renderMain() {
     if (this.props.todos.length == 0) {
       return null;
@@ -62,12 +94,19 @@ export default class TodoMVC extends React.Component {
   }
 
   render() {
+    console.log('todos:', JSON.stringify(this.props.todos));
+
     return (
       <div>
         <section className="todoapp">
           <header className="header">
             <h1>todos</h1>
-            <input className="new-todo" placeholder="What needs to be done?" autoFocus />
+            <input
+              className="new-todo"
+              placeholder="What needs to be done?"
+              onKeyDown={this.handleNewTodoKeyDown.bind(this)}
+              onChange={this.handleNewTodoChange.bind(this)}
+              autoFocus />
           </header>
 
           {/*This section should be hidden by default and shown when there are todos*/}
