@@ -25,7 +25,10 @@ class TodoStore {
     this.todos = [];
 
     this.bindListeners({
-      handleAddTodo: TodoActions.ADD_TODO
+      handleAddTodo: TodoActions.ADD_TODO,
+      handleEditTodo: TodoActions.EDIT_TODO,
+      handleDeleteTodo: TodoActions.DELETE_TODO,
+      handleToggle: TodoActions.TOGGLE
     });
   }
 
@@ -34,6 +37,34 @@ class TodoStore {
 
     // TODO .. to change localStorage as DataSource
     this.todos.push(newTodo);
+  }
+
+  handleEditTodo({id, newTitle}) {
+    this.todos = this.todos.map(it => {
+      return it.id !== id ? it : Object.assign({}, it, {title: newTitle});
+    });
+  }
+
+  handleDeleteTodo(id) {
+    let newTodos = [];
+
+    this.todos.forEach(todo => {
+      if (todo.id === id) {
+        return;
+      }
+
+      newTodos.push(todo);
+    });
+
+    // TODO .. newTodos may affect performance issure or logic issue, because
+    // new copy of todos happends.
+    this.todos = newTodos;
+  }
+
+  handleToggle(todo) {
+    this.todos = this.todos.map(it => {
+      return it !== todo ? it : Object.assign({}, it, {completed: !it.completed});
+    });
   }
 
   createTodo(title) {

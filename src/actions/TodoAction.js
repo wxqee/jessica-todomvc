@@ -6,6 +6,18 @@ class TodoActions {
     // this.dispatch(title);
     return title;
   }
+
+  toggle(todo) {
+    return todo;
+  }
+
+  editTodo({id, newTitle}) {
+    return {id, newTitle};
+  }
+
+  deleteTodo(id) {
+    return id;
+  }
 }
 
 export default alt.createActions(TodoActions);
