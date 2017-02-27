@@ -11,6 +11,10 @@ class TodoActions {
     return todo;
   }
 
+  toggleAll(checked) {
+    return checked;
+  }
+
   editTodo({id, newTitle}) {
     return {id, newTitle};
   }

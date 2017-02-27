@@ -5,7 +5,6 @@ import TodoItem from './TodoItem.js';
 
 import TodoActions from '../actions/TodoAction.js';
 
-/* eslint-disable */
 export default class TodoMVC extends React.Component {
   constructor(props) {
     super(props);
@@ -16,9 +15,12 @@ export default class TodoMVC extends React.Component {
       return null;
     }
 
+    let isToggleAllChecked = this.props.todos.filter(i=>!i.completed).length == 0;
+    let toggleAll = (e) => TodoActions.toggleAll(e.target.checked);
+
     return (
       <section className="main">
-        <input className="toggle-all" type="checkbox" />
+        <input ref="toggleAll" className="toggle-all" type="checkbox" checked={isToggleAllChecked} onChange={toggleAll} />
         {/*<label for="toggle-all">Mark all as complete</label>*/}
         <ul className="todo-list">
           {/*These are here just to show the structure of the list items*/}
@@ -59,8 +61,6 @@ export default class TodoMVC extends React.Component {
   }
 
   render() {
-    console.log('todos:', JSON.stringify(this.props.todos));
-
     return (
       <div>
         <section className="todoapp">

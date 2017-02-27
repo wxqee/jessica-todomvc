@@ -19,6 +19,7 @@ class TodoStore {
       handleEditTodo: TodoActions.EDIT_TODO,
       handleDeleteTodo: TodoActions.DELETE_TODO,
       handleToggle: TodoActions.TOGGLE,
+			handleToggleAll: TodoActions.TOGGLE_ALL,
       handleClearAllCompleted: TodoActions.CLEAR_ALL_COMPLETED
     });
   }
@@ -61,6 +62,12 @@ class TodoStore {
 
 		store(APP_NAME, this.todos);
   }
+
+	handleToggleAll(checked) {
+		this.todos.forEach(it => it.completed = checked);
+
+		store(APP_NAME, this.todos);
+	}
 
 	handleClearAllCompleted() {
 		this.todos = this.todos.filter(it => !it.completed);
