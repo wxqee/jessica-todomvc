@@ -1,28 +1,18 @@
 import alt from '../alt.js';
 
 import TodoActions from '../actions/TodoAction.js';
+import {
+	uuid,
+	store
+} from '../utils/TodoUtil.js';
 
-const uuid = () => {
-	/*jshint bitwise:false */
-	var i, random;
-	var uuid = '';
-
-	for (i = 0; i < 32; i++) {
-		random = Math.random() * 16 | 0;
-		if (i === 8 || i === 12 || i === 16 || i === 20) {
-			uuid += '-';
-		}
-		uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random))
-			.toString(16);
-	}
-
-	return uuid;
-};
-
+import {
+	APP_NAME
+} from '../utils/Contants.js';
 
 class TodoStore {
   constructor() {
-    this.todos = [];
+    this.todos = store(APP_NAME) || [];
 
     this.bindListeners({
       handleAddTodo: TodoActions.ADD_TODO,
@@ -34,16 +24,18 @@ class TodoStore {
   }
 
   handleAddTodo(title) {
-    let newTodo = this.createTodo(title);
+		let newTodo = this.createTodo(title);
+    this.todos.unshift(newTodo);
 
-    // TODO .. to change localStorage as DataSource
-    this.todos.push(newTodo);
+		store(APP_NAME, this.todos);
   }
 
   handleEditTodo({id, newTitle}) {
     this.todos = this.todos.map(it => {
       return it.id !== id ? it : Object.assign({}, it, {title: newTitle});
     });
+
+		store(APP_NAME, this.todos);
   }
 
   handleDeleteTodo(id) {
@@ -57,19 +49,23 @@ class TodoStore {
       newTodos.push(todo);
     });
 
-    // TODO .. newTodos may affect performance issure or logic issue, because
-    // new copy of todos happends.
     this.todos = newTodos;
+
+		store(APP_NAME, this.todos);
   }
 
   handleToggle(todo) {
     this.todos = this.todos.map(it => {
       return it !== todo ? it : Object.assign({}, it, {completed: !it.completed});
     });
+
+		store(APP_NAME, this.todos);
   }
 
 	handleClearAllCompleted() {
 		this.todos = this.todos.filter(it => !it.completed);
+
+		store(APP_NAME, this.todos);
 	}
 
   createTodo(title) {
