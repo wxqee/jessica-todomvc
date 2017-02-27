@@ -1,9 +1,15 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 import NewTodo from './NewTodo.js';
 import TodoItem from './TodoItem.js';
 
 import TodoActions from '../actions/TodoAction.js';
+
+import {
+  isActiveMode,
+  isCompletedMode
+} from '../utils/TodoUtil.js';
 
 export default class TodoMVC extends React.Component {
   constructor(props) {
@@ -17,6 +23,13 @@ export default class TodoMVC extends React.Component {
 
     let isToggleAllChecked = this.props.todos.filter(i=>!i.completed).length == 0;
     let toggleAll = (e) => TodoActions.toggleAll(e.target.checked);
+    let todos = this.props.todos;
+
+    if (isActiveMode()) {
+      todos = todos.filter(it => !it.completed);
+    } else if (isCompletedMode()) {
+      todos = todos.filter(it => it.completed);
+    }
 
     return (
       <section className="main">
@@ -25,7 +38,7 @@ export default class TodoMVC extends React.Component {
         <ul className="todo-list">
           {/*These are here just to show the structure of the list items*/}
           {/*List items should get the class `editing` when editing and `completed` when marked as completed*/}
-          {this.props.todos.map(todo => <TodoItem key={todo.id} todo={todo} />)}
+          {todos.map(todo => <TodoItem key={todo.id} todo={todo} />)}
         </ul>
       </section>
     );
@@ -45,13 +58,13 @@ export default class TodoMVC extends React.Component {
         {/*Remove this if you don't implement routing*/}
         <ul className="filters">
           <li>
-            <a className="selected" href="#/">All</a>
+            <Link activeClassName="selected" to="/">All</Link>
           </li>
           <li>
-            <a href="#/active">Active</a>
+            <Link activeClassName="selected" to="/active">Active</Link>
           </li>
           <li>
-            <a href="#/completed">Completed</a>
+            <Link activeClassName="selected" to="/completed">Completed</Link>
           </li>
         </ul>
         {/*Hidden if no completed items are left ↓*/}

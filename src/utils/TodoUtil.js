@@ -25,3 +25,15 @@ export const store = (key, value) => {
 
   return _value && JSON.parse(_value) || [];
 };
+
+export const isDefaultMode = () => {
+  return location.hash.indexOf('/') > 0;
+};
+
+export const isActiveMode = () => {
+  return location.hash.indexOf('/active') > 0;
+};
+
+export const isCompletedMode = () => {
+  return location.hash.indexOf('/completed') > 0;
+};
