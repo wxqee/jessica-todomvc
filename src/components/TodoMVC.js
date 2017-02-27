@@ -3,6 +3,8 @@ import React from 'react';
 import NewTodo from './NewTodo.js';
 import TodoItem from './TodoItem.js';
 
+import TodoActions from '../actions/TodoAction.js';
+
 /* eslint-disable */
 export default class TodoMVC extends React.Component {
   constructor(props) {
@@ -51,7 +53,7 @@ export default class TodoMVC extends React.Component {
           </li>
         </ul>
         {/*Hidden if no completed items are left ↓*/}
-        <button className="clear-completed">Clear completed</button>
+        <button className="clear-completed" onClick={TodoActions.clearAllCompleted}>Clear completed</button>
       </footer>
     );
   }

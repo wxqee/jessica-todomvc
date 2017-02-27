@@ -18,6 +18,10 @@ class TodoActions {
   deleteTodo(id) {
     return id;
   }
+
+  clearAllCompleted() {
+    return null;
+  }
 }
 
 export default alt.createActions(TodoActions);

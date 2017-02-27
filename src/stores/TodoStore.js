@@ -28,7 +28,8 @@ class TodoStore {
       handleAddTodo: TodoActions.ADD_TODO,
       handleEditTodo: TodoActions.EDIT_TODO,
       handleDeleteTodo: TodoActions.DELETE_TODO,
-      handleToggle: TodoActions.TOGGLE
+      handleToggle: TodoActions.TOGGLE,
+      handleClearAllCompleted: TodoActions.CLEAR_ALL_COMPLETED
     });
   }
 
@@ -66,6 +67,10 @@ class TodoStore {
       return it !== todo ? it : Object.assign({}, it, {completed: !it.completed});
     });
   }
+
+	handleClearAllCompleted() {
+		this.todos = this.todos.filter(it => !it.completed);
+	}
 
   createTodo(title) {
     return {
