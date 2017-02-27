@@ -50,6 +50,7 @@ export default class TodoMVC extends React.Component {
     }
 
     let countOfItemLeft = this.props.todos.filter(todo => !todo.completed).length;
+    let isHasCompleted = this.props.todos.findIndex(todo => todo.completed) >= 0;
 
     return (
       <footer className="footer">
@@ -68,7 +69,9 @@ export default class TodoMVC extends React.Component {
           </li>
         </ul>
         {/*Hidden if no completed items are left ↓*/}
-        <button className="clear-completed" onClick={TodoActions.clearAllCompleted}>Clear completed</button>
+        {isHasCompleted ? null : (
+          <button className="clear-completed" onClick={TodoActions.clearAllCompleted}>Clear completed</button>
+        )}
       </footer>
     );
   }
