@@ -32,10 +32,12 @@ export default class TodoMVC extends React.Component {
       return null;
     }
 
+    let countOfItemLeft = this.props.todos.filter(todo => !todo.completed).length;
+
     return (
       <footer className="footer">
         {/*This should be `0 items left` by default*/}
-        <span className="todo-count"><strong>0</strong> item left</span>
+        <span className="todo-count"><strong>{countOfItemLeft}</strong> item left</span>
         {/*Remove this if you don't implement routing*/}
         <ul className="filters">
           <li>
