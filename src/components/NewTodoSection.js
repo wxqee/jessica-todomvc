@@ -11,8 +11,6 @@ const NewTodo = () => {
       return;
     }
 
-    e.preventDefault();
-
     let title = newTodo.trim();
 
     if (title) {
@@ -22,11 +20,6 @@ const NewTodo = () => {
     }
   }
 
-  const handleNewTodoChange = (e) => {
-    e.preventDefault();
-    newTodo = e.target.value;
-  }
-
   return (
     <header className="header">
       <h1>todos</h1>
@@ -34,7 +27,7 @@ const NewTodo = () => {
         className="new-todo"
         placeholder="What needs to be done?"
         onKeyDown={handleNewTodoKeyDown}
-        onChange={handleNewTodoChange}
+        onChange={e => newTodo = e.target.value}
         autoFocus />
     </header>
   );

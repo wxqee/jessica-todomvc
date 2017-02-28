@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import NewTodo from './NewTodo.js';
+import NewTodoSection from './NewTodoSection.js';
 import TodoItem from './TodoItem.js';
 
 import TodoActions from '../actions/TodoActions.js';
@@ -88,7 +88,7 @@ export default class TodoMVC extends React.Component {
     return (
       <div>
         <section className="todoapp">
-          <NewTodo />
+          <NewTodoSection />
 
           {/*This section should be hidden by default and shown when there are todos*/}
           {this.renderMain()}
