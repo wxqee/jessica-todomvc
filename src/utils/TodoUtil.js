@@ -16,12 +16,14 @@ export const uuid = () => {
 	return uuid;
 };
 
-export const store = (key, value) => {
+export const store = (key, value, cb) => {
   if (value) {
     return localStorage.setItem(key, JSON.stringify(value));
   }
 
   let _value = localStorage.getItem(key);
+
+	cb && cb();
 
   return _value && JSON.parse(_value) || [];
 };

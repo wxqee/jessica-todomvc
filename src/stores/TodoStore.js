@@ -13,6 +13,7 @@ import {
 class TodoStore {
   constructor() {
     this.todos = store(APP_NAME) || [];
+		this.initAfterTodosUpdate();
 
     this.bindListeners({
       handleAddTodo: TodoActions.ADD_TODO,
@@ -22,12 +23,20 @@ class TodoStore {
 			handleToggleAll: TodoActions.TOGGLE_ALL,
       handleClearAllCompleted: TodoActions.CLEAR_ALL_COMPLETED
     });
+
+		// this.on('afterEach', this.initAfterTodosUpdate.bind(this));
   }
+
+	initAfterTodosUpdate() {
+		this.todosCompleted = this.todos.filter(i => i.completed);
+		this.todosActive = this.todos.filter(i => !i.completed);
+	}
 
   handleAddTodo(title) {
 		let newTodo = this.createTodo(title);
-    this.todos.unshift(newTodo);
+    this.todos.push(newTodo);
 
+		this.initAfterTodosUpdate();
 		store(APP_NAME, this.todos);
   }
 
@@ -36,6 +45,7 @@ class TodoStore {
       return it.id !== id ? it : Object.assign({}, it, {title: newTitle});
     });
 
+		this.initAfterTodosUpdate();
 		store(APP_NAME, this.todos);
   }
 
@@ -52,6 +62,7 @@ class TodoStore {
 
     this.todos = newTodos;
 
+		this.initAfterTodosUpdate();
 		store(APP_NAME, this.todos);
   }
 
@@ -60,18 +71,21 @@ class TodoStore {
       return it !== todo ? it : Object.assign({}, it, {completed: !it.completed});
     });
 
+		this.initAfterTodosUpdate();
 		store(APP_NAME, this.todos);
   }
 
 	handleToggleAll(checked) {
 		this.todos.forEach(it => it.completed = checked);
 
+		this.initAfterTodosUpdate();
 		store(APP_NAME, this.todos);
 	}
 
 	handleClearAllCompleted() {
 		this.todos = this.todos.filter(it => !it.completed);
 
+		this.initAfterTodosUpdate();
 		store(APP_NAME, this.todos);
 	}
 
