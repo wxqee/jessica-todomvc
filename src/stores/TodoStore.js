@@ -1,6 +1,6 @@
 import alt from '../alt.js';
 
-import TodoActions from '../actions/TodoAction.js';
+import TodoActions from '../actions/TodoActions.js';
 import {
 	uuid,
 	store
