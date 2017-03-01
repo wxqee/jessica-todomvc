@@ -2,73 +2,141 @@ require('normalize.css/normalize.css');
 require('styles/App.css');
 
 import React from 'react';
-
+import Header from './header.jsx';
+import Footer from './Footer.jsx';
+import Footernote from './Footernote.jsx';
+import Tasks from './tasks.jsx';
 // let yeomanImage = require('../images/yeoman.png');
 
 class AppComponent extends React.Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      taskList: [],
+      displayView:[true,false,false]
+    }
+  }
+
+  addNewTask(taskName){
+    let taskList = this.state.taskList;
+    taskList.push({'taskName':taskName,'complete':false});
+    this.setState({
+      taskList:taskList
+    });
+  }
+
+  removeThisItem(i){
+    console.log(i);
+    let taskList=this.state.taskList;
+    console.log(taskList[i]);
+    taskList.splice(i,1);
+    this.setState({
+      taskList: taskList
+    })
+  }
+
+  changeTaskName(i,newTaskName){
+    let taskList=this.state.taskList;
+    taskList[i].taskName=newTaskName;
+    if(newTaskName.length === 0){
+      taskList.splice(i,1);
+    }
+    this.setState({
+      taskList:taskList
+    });
+  }
+
+  completeClicked(i){
+    let taskList=this.state.taskList;
+
+    taskList[i].complete=!taskList[i].complete;
+
+    this.setState({
+      taskList:taskList
+    })
+  }
+
+  clearCompleted(){
+    let taskNameList=this.state.taskList;
+
+    for(let i=this.state.taskList.length;i>0;i--){
+      if(taskNameList[i-1].complete===true){
+        taskNameList.splice(i-1,1);
+      }
+    }
+
+    this.setState({
+      taskList:taskNameList
+    });
+  }
+
+  showActive(){
+    this.setState({
+      displayView:[false,true,false]
+    });
+  }
+
+  showCompleted(){
+    this.setState({
+      displayView:[false,false,true]
+    });
+  }
+
+  showAll(){
+    this.setState({
+      displayView:[true,false,false]
+    })
+  }
+
   render() {
+    let completeList=[];
+    let activeList=[];
+    let taskList;
+    for(let i=0;i<this.state.taskList.length;i++){
+      if(this.state.taskList[i].complete===true){
+        completeList.push(this.state.taskList[i]);
+      } else if(this.state.taskList[i].complete===false){
+        activeList.push(this.state.taskList[i]);
+      }
+    }
+
+    let displayView=this.state.displayView.indexOf(true);
+
+    if(displayView===0){
+      taskList=this.state.taskList;
+    } else if(displayView === 1){
+      taskList=activeList;
+    } else if(displayView === 2){
+      taskList=completeList;
+    }
+
     return (
       <div>
         <section className="todoapp">
-          <header className="header">
-            <h1>todos</h1>
-            <input className="new-todo" placeholder="What needs to be done?" autoFocus />
-          </header>
-          {/*This section should be hidden by default and shown when there are todos*/}
-          <section className="main">
-            <input className="toggle-all" type="checkbox" />
-            {/*<label for="toggle-all">Mark all as complete</label>*/}
-            <ul className="todo-list">
-              {/*These are here just to show the structure of the list items*/}
-              {/*List items should get the class `editing` when editing and `completed` when marked as completed*/}
-              <li className="completed">
-                <div className="view">
-                  <input className="toggle" type="checkbox" checked />
-                  <label>Taste JavaScript</label>
-                  <button className="destroy" />
-                </div>
-                <input className="edit" value="Create a TodoMVC template" />
-              </li>
-              <li>
-                <div className="view">
-                  <input className="toggle" type="checkbox" />
-                  <label>Buy a unicorn</label>
-                  <button className="destroy" />
-                </div>
-                <input className="edit" value="Rule the web" />
-              </li>
-            </ul>
+          <Header addNewTask={this.addNewTask.bind(this)}/>
+          <section className="main" >
+            <input className="toggle-all" type="checkbox"/>
+            <Tasks taskList={taskList}
+                   addNewTask={this.addNewTask.bind(this)}
+                   removeThisItem={this.removeThisItem.bind(this)}
+                   changeTaskName={this.changeTaskName.bind(this)}
+                   completeClicked={this.completeClicked.bind(this)}/>
           </section>
-          {/*This footer should hidden by default and shown when there are todos*/}
-          <footer className="footer">
-            {/*This should be `0 items left` by default*/}
-            <span className="todo-count"><strong>0</strong> item left</span>
-            {/*Remove this if you don't implement routing*/}
-            <ul className="filters">
-              <li>
-                <a className="selected" href="#/">All</a>
-              </li>
-              <li>
-                <a href="#/active">Active</a>
-              </li>
-              <li>
-                <a href="#/completed">Completed</a>
-              </li>
-            </ul>
-            {/*Hidden if no completed items are left ↓*/}
-            <button className="clear-completed">Clear completed</button>
-          </footer>
+          <Footer taskNumber={this.state.taskList.length}
+                  completeList={completeList.length}
+                  clearCompleted={this.clearCompleted.bind(this)}
+                  showActive={this.showActive.bind(this)}
+                  showCompleted={this.showCompleted.bind(this)}
+                  showAll={this.showAll.bind(this)}
+                  displayView={this.state.displayView}/>
         </section>
-        <footer className="info">
-          <p>Double-click to edit a todo</p>
-          <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
-        </footer>
+        <Footernote/>
       </div>
     );
   }
 }
 
-AppComponent.defaultProps = {
-};
+AppComponent.defaultProps = {};
 
 export default AppComponent;
