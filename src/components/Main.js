@@ -49,16 +49,27 @@ class AppComponent extends React.Component {
         completed: false
       }
     ];
+
+    this.state = {
+      newTodo: false
+    };
   }
 
   newTodo(e) {
     if (e.keyCode == ENTER_KEY) {
       let {inputForNewToDo} = this.refs;
 
-      let toDoLabel = inputForNewToDo.getValue();
+      let toDoLabel = inputForNewToDo.value;
 
       if (toDoLabel.trim().length > 0) {
+        this.data.push({
+          title: toDoLabel,
+          completed: false
+        });
 
+        this.setState({
+          newTodo: true
+        });
       }
     }
   }
@@ -68,7 +79,7 @@ class AppComponent extends React.Component {
       <header className="header">
         <h1>todos</h1>
         <input
-          refs="inputForNewToDo"
+          ref="inputForNewToDo"
           className="new-todo"
           placeholder="What needs to be done?"
           autoFocus
@@ -90,8 +101,8 @@ class AppComponent extends React.Component {
           {/*List items should get the class `editing` when editing and `completed` when marked as completed*/}
 
           {
-            datas.map((item) => {
-              return (<ToDoItem data={item} />);
+            datas.map((item, key) => {
+              return (<ToDoItem item={item} key={key}/>);
             })
           }
 
