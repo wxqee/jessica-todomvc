@@ -21,9 +21,10 @@ class AppComponent extends React.Component {
         completed: false
       }
     ];
+    this.nextId = 2;
 
     this.state = {
-      newTodo: false
+      isDataChange: false
     };
   }
 
@@ -31,16 +32,19 @@ class AppComponent extends React.Component {
     if (e.keyCode == ENTER_KEY) {
       let {inputForNewToDo} = this.refs;
 
-      let toDoLabel = inputForNewToDo.value;
+      let toDoLabel = inputForNewToDo.value.trim();
 
-      if (toDoLabel.trim().length > 0) {
+      if (toDoLabel.length > 0) {
         this.data.push({
           title: toDoLabel,
-          completed: false
+          completed: false,
+          id: this.nextId++
         });
 
         this.setState({
-          newTodo: true
+          isDataChange: true
+        }, () => {
+          inputForNewToDo.value = null;
         });
       }
     }
@@ -61,6 +65,16 @@ class AppComponent extends React.Component {
     );
   }
 
+  toDoDel(id) {
+    let aimIndex = this.data.findIndex(i => i.id === id);
+
+    this.data.splice(aimIndex, 1);
+
+    this.setState({
+      isDataChange: true
+    });
+  }
+
   renderMain() {
     let datas = this.data;
 
@@ -76,7 +90,7 @@ class AppComponent extends React.Component {
                   item={item}
                   key={key}
                   onChange={() => {}}
-                  onDelete={() => {}}
+                  onDelete={this.toDoDel.bind(this)}
                   onEdit={() => {}}
                 />
               );
