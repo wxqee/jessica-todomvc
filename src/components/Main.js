@@ -79,16 +79,6 @@ class AppComponent extends React.Component {
             })
           }
 
-          <li className="completed">
-            <div className="view">
-              <input className="toggle" type="checkbox" checked />
-              <label>Taste JavaScript</label>
-              <button className="destroy" />
-            </div>
-            <input className="edit" value="Create a TodoMVC template" />
-          </li>
-
-
         </ul>
       </section>
     );
@@ -100,17 +90,17 @@ class AppComponent extends React.Component {
         {/*This should be `0 items left` by default*/}
         <span className="todo-count"><strong>0</strong> item left</span>
         {/*Remove this if you don't implement routing*/}
-        {/*<ul className="filters">*/}
-        {/*<li>*/}
-        {/*<a className="selected" href="#/">All</a>*/}
-        {/*</li>*/}
-        {/*<li>*/}
-        {/*<a href="#/active">Active</a>*/}
-        {/*</li>*/}
-        {/*<li>*/}
-        {/*<a href="#/completed">Completed</a>*/}
-        {/*</li>*/}
-        {/*</ul>*/}
+        <ul className="filters">
+        <li>
+          <a className="selected" href="#/">All</a>
+        </li>
+        <li>
+          <a href="#/active">Active</a>
+        </li>
+        <li>
+          <a href="#/completed">Completed</a>
+        </li>
+        </ul>
         {/*Hidden if no completed items are left ↓*/}
         <button className="clear-completed">Clear completed</button>
       </footer>
