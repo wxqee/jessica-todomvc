@@ -49,7 +49,7 @@ class ToDoItem extends React.Component {
           <label onDoubleClick={this.onEdit.bind(this)}>{item.title}</label>
           <button className="destroy" onClick={this.onDelete.bind(this)} />
         </div>
-        <input className="edit" value="Rule the web" />
+        <input className="edit" value={item.title} />
       </li>
     );
   }
