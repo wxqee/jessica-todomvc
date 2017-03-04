@@ -5,7 +5,8 @@ class ToDoItem extends React.Component {
     super(props);
 
     this.state = {
-      completed: this.props.item.completed || false
+      completed: this.props.item.completed || false,
+      editing: false
     };
   }
 
@@ -18,7 +19,9 @@ class ToDoItem extends React.Component {
   }
 
   onEdit() {
-    alert();
+    this.setState({
+      editing: true
+    });
   }
 
   onDelete() {
@@ -28,11 +31,16 @@ class ToDoItem extends React.Component {
   render() {
     const {item} = this.props;
 
-    let className = '';
+    let classNameArray = [];
 
     if (this.state.completed) {
-      className = 'completed';
+      classNameArray.push('completed');
     }
+    if (this.state.editing) {
+      classNameArray.push('editing');
+    }
+
+    let className = classNameArray.join(' ');
 
     return (
       <li className={className}>
