@@ -17,6 +17,10 @@ class ToDoItem extends React.Component {
     });
   }
 
+  onEdit() {
+    alert();
+  }
+
   onDelete() {
     this.props.onDelete(this.props.item.id);
   }
@@ -34,7 +38,7 @@ class ToDoItem extends React.Component {
       <li className={className}>
         <div className="view">
           <input className="toggle" type="checkbox" checked={this.state.completed} onChange={this.toogle.bind(this)}/>
-          <label>{item.title}</label>
+          <label onDoubleClick={this.onEdit.bind(this)}>{item.title}</label>
           <button className="destroy" onClick={this.onDelete.bind(this)} />
         </div>
         <input className="edit" value="Rule the web" />
