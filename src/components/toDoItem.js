@@ -6,7 +6,8 @@ class ToDoItem extends React.Component {
 
     this.state = {
       completed: this.props.item.completed || false,
-      editing: false
+      editing: false,
+      editingValue: this.props.item.title || null
     };
   }
 
@@ -26,6 +27,15 @@ class ToDoItem extends React.Component {
 
   onDelete() {
     this.props.onDelete(this.props.item.id);
+  }
+
+  changeHandle() {
+    let {editing} = this.refs;
+    let value = editing.value;
+
+    this.setState({
+      editingValue: value
+    });
   }
 
   render() {
@@ -49,7 +59,13 @@ class ToDoItem extends React.Component {
           <label onDoubleClick={this.onEdit.bind(this)}>{item.title}</label>
           <button className="destroy" onClick={this.onDelete.bind(this)} />
         </div>
-        <input className="edit" value={item.title} />
+        <input
+          ref="editing"
+          className="edit"
+          value={this.state.editingValue}
+          onChange={this.changeHandle.bind(this)}
+          onBlur={() => {}}
+        />
       </li>
     );
   }
