@@ -75,6 +75,20 @@ class AppComponent extends React.Component {
     });
   }
 
+  toDoEdit(id, value) {
+    // let currentToDo = this.data.filter(i => i.id === id);
+    // currentToDo.title = value;
+    // Object.assign(currentToDo, {title: value});
+    this.data.map((item) => {
+      if(item.id === id) {
+        item.title = value;
+        return;
+      }
+    });
+
+    this.setState({isDataChange: true});
+  }
+
   renderMain() {
     let datas = this.data;
 
@@ -91,7 +105,7 @@ class AppComponent extends React.Component {
                   key={key}
                   onChange={() => {}}
                   onDelete={this.toDoDel.bind(this)}
-                  onEdit={() => {}}
+                  onEdit={this.toDoEdit.bind(this, item.id)}
                 />
               );
             })

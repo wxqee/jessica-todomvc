@@ -1,13 +1,14 @@
 import React from 'react';
 
+const ENTER_KEY = 13;
+
 class ToDoItem extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       completed: this.props.item.completed || false,
-      editing: false,
-      editingValue: this.props.item.title || null
+      editing: false
     };
   }
 
@@ -23,13 +24,34 @@ class ToDoItem extends React.Component {
     this.props.onDelete(this.props.item.id);
   }
 
-  changeHandle() {
+  //TODO: think about the structor to find if there are pithy ways
+  getEditingValue() {   
     let {editing} = this.refs;
     let value = editing.value;
 
-    this.setState({
-      editingValue: value
-    });
+    return value;
+  }
+
+  changeHandle() {
+    let value = this.getEditingValue();
+
+    this.props.onEdit(value);
+  }
+
+  enterToBlur(e) {
+    if (e.keyCode == ENTER_KEY) {
+      this.blur();
+    }
+  }
+
+  blur() {
+    let value = this.getEditingValue();
+
+    if (!value) {
+      this.onDelete();
+    }
+
+    this.setState({editing: false});
   }
 
   render() {
@@ -56,9 +78,10 @@ class ToDoItem extends React.Component {
         <input
           ref="editing"
           className="edit"
-          value={this.state.editingValue}
+          value={item.title}
           onChange={this.changeHandle.bind(this)}
-          onBlur={() => this.setState({editing: false})}
+          onBlur={this.blur.bind(this)}
+          onKeyDown={this.enterToBlur.bind(this)} //TODO: see if there is another way
         />
       </li>
     );
