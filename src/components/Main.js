@@ -21,7 +21,7 @@ class AppComponent extends React.Component {
         completed: false
       }
     ];
-    this.nextId = 2;
+    this.nextId = 3;
 
     this.state = {
       isDataChange: false
@@ -67,7 +67,6 @@ class AppComponent extends React.Component {
 
   toDoDel(id) {
     let aimIndex = this.data.findIndex(i => i.id === id);
-
     this.data.splice(aimIndex, 1);
 
     this.setState({

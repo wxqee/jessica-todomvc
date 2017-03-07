@@ -12,20 +12,29 @@ class ToDoItem extends React.Component {
     };
   }
 
-  toogle() {
+  componentWillReceiveprops(nextProps) {
     this.setState({
-      completed: !this.state.completed
-    }, () => {
-      this.props.onChange(this.state.completed);
+      completed: nextProps.item.completed
     });
   }
 
+  toogle() {
+    let newStatus = !this.state.completed;
+    
+    this.setState({completed: newStatus});
+    this.props.onChange(newStatus);
+  }
+
   onDelete() {
-    this.props.onDelete(this.props.item.id);
+    this.setState({
+      completed: false
+    }, () => {
+      this.props.onDelete(this.props.item.id);
+    });
   }
 
   //TODO: think about the structor to find if there are pithy ways
-  getEditingValue() {   
+  getEditingValue() {
     let {editing} = this.refs;
     let value = editing.value;
 
