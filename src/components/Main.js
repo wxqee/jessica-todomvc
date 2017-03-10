@@ -88,6 +88,13 @@ class AppComponent extends React.Component {
     this.setState({isDataChange: true});
   }
 
+  toDoStatusChange(id, status) {
+    debugger;
+    let index = this.data.findIndex(i => i.id === id);
+
+    this.data[index].completed = status;
+  }
+
   renderMain() {
     let datas = this.data;
 
@@ -102,7 +109,7 @@ class AppComponent extends React.Component {
                 <ToDoItem
                   item={item}
                   key={key}
-                  onChange={() => {}}
+                  onChange={this.toDoStatusChange.bind(this, item.id)}
                   onDelete={this.toDoDel.bind(this)}
                   onEdit={this.toDoEdit.bind(this, item.id)}
                 />
@@ -120,16 +127,16 @@ class AppComponent extends React.Component {
         <span className="todo-count"><strong>0</strong> item left</span>
         <ul className="filters">
         <li>
-          <a className="selected" href="#/">All</a>
+          <a className="selected" href="#/" onClick={this.filterAll.bind(this)}>All</a>
         </li>
         <li>
-          <a href="#/active">Active</a>
+          <a href="#/active" onClick={this.filterActive.bind(this)}>Active</a>
         </li>
         <li>
-          <a href="#/completed">Completed</a>
+          <a href="#/completed" onClick={this.filterCompleted.bind(this)}>Completed</a>
         </li>
         </ul>
-        <button className="clear-completed">Clear completed</button>
+        <button className="clear-completed" onClick={this.clearCompleted.bind(this)}>Clear completed</button>
       </footer>
     );
   }

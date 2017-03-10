@@ -12,7 +12,7 @@ class ToDoItem extends React.Component {
     };
   }
 
-  componentWillReceiveprops(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       completed: nextProps.item.completed
     });
@@ -28,9 +28,9 @@ class ToDoItem extends React.Component {
   onDelete() {
     this.setState({
       completed: false
-    }, () => {
-      this.props.onDelete(this.props.item.id);
     });
+
+    this.props.onDelete(this.props.item.id);
   }
 
   //TODO: think about the structor to find if there are pithy ways
