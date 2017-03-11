@@ -24,7 +24,8 @@ class AppComponent extends React.Component {
     this.nextId = 3;
 
     this.state = {
-      isDataChange: false
+      isDataChange: false,
+      activeModel: 1
     };
   }
 
@@ -98,16 +99,14 @@ class AppComponent extends React.Component {
     });
   }
 
-  renderMain() {
-    let datas = this.data;
-
+  renderMain(todos) {
     return (
       <section className="main">
         <input className="toggle-all" type="checkbox" />
         {/*<label for="toggle-all">Mark all as complete</label>*/}
         <ul className="todo-list">
           {
-            datas.map((item, key) => {
+            todos.map((item, key) => {
               return (
                 <ToDoItem
                   item={item}
@@ -124,9 +123,33 @@ class AppComponent extends React.Component {
     );
   }
 
-  clearCompleted() {}
+  clearCompleted() {
+    this.data.map(i => {i.completed = false});
+
+    this.setState({isDataChange: true});
+  }
+
+  filterAll() {
+    this.renderMain(this.data);
+  }
+
+  filterActive() {
+    this.renderMain(this.data.filter(i => i.completed == false));
+  }
+
+  filterCompleted() {
+    this.renderMain(this.data.filter(i => i.completed == true));
+  }
 
   renderFooter() {
+    let clearButton = null;
+
+    if(this.data.filter(i => i.completed === true).length > 0) {
+      clearButton = (
+        <button className="clear-completed" onClick={this.clearCompleted.bind(this)}>Clear completed</button>
+      );
+    }
+
     return (
       <footer className="footer">
         <span className="todo-count">
@@ -137,16 +160,16 @@ class AppComponent extends React.Component {
         </span>
         <ul className="filters">
           <li>
-            <a className="selected" href="#/" onClick={this.filterAll.bind(this)}>All</a>
+            <a key={1} className="selected" href="#/" onClick={this.filterAll.bind(this)}>All</a>
           </li>
           <li>
-            <a href="#/active" onClick={() => {}}>Active</a>
+            <a key={2} href="#/active" onClick={this.filterActive.bind(this)}>Active</a>
           </li>
           <li>
-            <a href="#/completed" onClick={() => {}}>Completed</a>
+            <a key={3} href="#/completed" onClick={this.filterCompleted.bind(this)}>Completed</a>
           </li>
         </ul>
-        <button className="clear-completed" onClick={this.clearCompleted.bind(this)}>Clear completed</button>
+        {clearButton}
       </footer>
     );
   }
