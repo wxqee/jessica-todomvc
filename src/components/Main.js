@@ -89,10 +89,13 @@ class AppComponent extends React.Component {
   }
 
   toDoStatusChange(id, status) {
-    debugger;
     let index = this.data.findIndex(i => i.id === id);
 
     this.data[index].completed = status;
+
+    this.setState({
+      isDataChange: true
+    });
   }
 
   renderMain() {
@@ -121,20 +124,27 @@ class AppComponent extends React.Component {
     );
   }
 
+  clearCompleted() {}
+
   renderFooter() {
     return (
       <footer className="footer">
-        <span className="todo-count"><strong>0</strong> item left</span>
+        <span className="todo-count">
+          <strong>
+            {this.data.filter(i => i.completed === false).length}
+          </strong>
+          item left
+        </span>
         <ul className="filters">
-        <li>
-          <a className="selected" href="#/" onClick={this.filterAll.bind(this)}>All</a>
-        </li>
-        <li>
-          <a href="#/active" onClick={this.filterActive.bind(this)}>Active</a>
-        </li>
-        <li>
-          <a href="#/completed" onClick={this.filterCompleted.bind(this)}>Completed</a>
-        </li>
+          <li>
+            <a className="selected" href="#/" onClick={this.filterAll.bind(this)}>All</a>
+          </li>
+          <li>
+            <a href="#/active" onClick={() => {}}>Active</a>
+          </li>
+          <li>
+            <a href="#/completed" onClick={() => {}}>Completed</a>
+          </li>
         </ul>
         <button className="clear-completed" onClick={this.clearCompleted.bind(this)}>Clear completed</button>
       </footer>
