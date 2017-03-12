@@ -25,7 +25,8 @@ class AppComponent extends React.Component {
 
     this.state = {
       isDataChange: false,
-      activeModel: 1
+      activeModel: 1,
+      todos: this.data
     };
   }
 
@@ -99,14 +100,14 @@ class AppComponent extends React.Component {
     });
   }
 
-  renderMain(todos) {
+  renderMain() {
     return (
       <section className="main">
         <input className="toggle-all" type="checkbox" />
         {/*<label for="toggle-all">Mark all as complete</label>*/}
         <ul className="todo-list">
           {
-            todos.map((item, key) => {
+            this.state.todos.map((item, key) => {
               return (
                 <ToDoItem
                   item={item}
@@ -129,16 +130,25 @@ class AppComponent extends React.Component {
     this.setState({isDataChange: true});
   }
 
-  filterAll() {
-    this.renderMain(this.data);
+  filterAll(key) {
+    this.setstate({
+      todos: this.data,
+      activeModel: key
+    });
   }
 
-  filterActive() {
-    this.renderMain(this.data.filter(i => i.completed == false));
+  filterActive(key) {
+    this.setState({
+      todos: this.data.filter(i => i.completed == false),
+      activeModel: key
+    });
   }
 
-  filterCompleted() {
-    this.renderMain(this.data.filter(i => i.completed == true));
+  filterCompleted(key) {
+    this.setState({
+      todos: this.data.filter(i => i.completed == true),
+      activeModel: key
+    });
   }
 
   renderFooter() {
@@ -159,14 +169,15 @@ class AppComponent extends React.Component {
           item left
         </span>
         <ul className="filters">
+        //TODO: 1, 2, 3 change to const
           <li>
-            <a key={1} className="selected" href="#/" onClick={this.filterAll.bind(this)}>All</a>
+            <a key={1} className={(this.state.activeModel == 1) ? 'selected' : ''} href="#/" onClick={this.filterAll.bind(this, 1)}>All</a>
           </li>
           <li>
-            <a key={2} href="#/active" onClick={this.filterActive.bind(this)}>Active</a>
+            <a key={2} className={(this.state.activeModel == 2) ? 'selected' : ''} href="#/active" onClick={this.filterActive.bind(this, 2)}>Active</a>
           </li>
           <li>
-            <a key={3} href="#/completed" onClick={this.filterCompleted.bind(this)}>Completed</a>
+            <a key={3} className={(this.state.activeModel == 3) ? 'selected' : ''} href="#/completed" onClick={this.filterCompleted.bind(this, 3)}>Completed</a>
           </li>
         </ul>
         {clearButton}
