@@ -6,6 +6,12 @@ import ToDoItem from './toDoItem.js'
 
 const ENTER_KEY = 13;
 
+const FILTER_TYPES = {
+  ALL: 1,
+  ACTIVE: 2,
+  COMPLETED: 3
+};
+
 class AppComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -79,7 +85,6 @@ class AppComponent extends React.Component {
   toDoEdit(id, value) {
     // let currentToDo = this.data.filter(i => i.id === id);
     // currentToDo.title = value;
-    // Object.assign(currentToDo, {title: value});
     this.data.map((item) => {
       if(item.id === id) {
         item.title = value;
@@ -136,13 +141,13 @@ class AppComponent extends React.Component {
   getTodos(key) {
     let todos = null;
     switch(key) {
-      case 1:
+      case FILTER_TYPES.ALL:
         todos = this.data;
         break;
-      case 2:
+      case FILTER_TYPES.ACTIVE:
         todos = this.data.filter(i => i.completed == false);
         break;
-      case 3:
+      case FILTER_TYPES.COMPLETED:
         todos = this.data.filter(i => i.completed == true);
         break;
       default:
@@ -178,13 +183,13 @@ class AppComponent extends React.Component {
         </span>
         <ul className="filters">
           <li>
-            <a key={1} className={(this.state.activeModel == 1) ? 'selected' : ''} href="#/" onClick={this.filter.bind(this, 1)}>All</a>
+            <a className={(this.state.activeModel == FILTER_TYPES.ALL) ? 'selected' : ''} href="#/" onClick={this.filter.bind(this, FILTER_TYPES.ALL)}>All</a>
           </li>
           <li>
-            <a key={2} className={(this.state.activeModel == 2) ? 'selected' : ''} href="#/active" onClick={this.filter.bind(this, 2)}>Active</a>
+            <a className={(this.state.activeModel == FILTER_TYPES.ACTIVE) ? 'selected' : ''} href="#/active" onClick={this.filter.bind(this, FILTER_TYPES.ACTIVE)}>Active</a>
           </li>
           <li>
-            <a key={3} className={(this.state.activeModel == 3) ? 'selected' : ''} href="#/completed" onClick={this.filter.bind(this, 3)}>Completed</a>
+            <a className={(this.state.activeModel == FILTER_TYPES.COMPLETED) ? 'selected' : ''} href="#/completed" onClick={this.filter.bind(this, FILTER_TYPES.COMPLETED)}>Completed</a>
           </li>
         </ul>
         {clearButton}

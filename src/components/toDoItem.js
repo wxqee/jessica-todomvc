@@ -33,7 +33,6 @@ class ToDoItem extends React.Component {
     this.props.onDelete(this.props.item.id);
   }
 
-  //TODO: think about the structor to find if there are pithy ways
   getEditingValue() {
     let {editing} = this.refs;
     let value = editing.value;
@@ -90,14 +89,22 @@ class ToDoItem extends React.Component {
           value={item.title}
           onChange={this.changeHandle.bind(this)}
           onBlur={this.blur.bind(this)}
-          onKeyDown={this.enterToBlur.bind(this)} //TODO: see if there is another way
+          onKeyDown={this.enterToBlur.bind(this)}
         />
       </li>
     );
   }
 }
 
-ToDoItem.defaultProps = {
+ToDoItem.propTypes = {
+  item: React.PropTypes.shape({
+    id: React.PropTypes.number,
+    title: React.PropTypes.string,
+    completed: React.PropTypes.bool
+  }),
+  onChange: React.PropTypes.func,
+  onDelete: React.PropTypes.func,
+  onEdit: React.PropTypes.func
 };
 
 export default ToDoItem;
