@@ -127,26 +127,34 @@ class AppComponent extends React.Component {
   clearCompleted() {
     this.data.map(i => {i.completed = false});
 
-    this.setState({isDataChange: true});
-  }
-
-  filterAll(key) {
-    this.setstate({
-      todos: this.data,
-      activeModel: key
+    this.setState({
+      isDataChange: true,
+      todos: this.getTodos(this.state.activeModel)
     });
   }
 
-  filterActive(key) {
-    this.setState({
-      todos: this.data.filter(i => i.completed == false),
-      activeModel: key
-    });
+  getTodos(key) {
+    let todos = null;
+    switch(key) {
+      case 1:
+        todos = this.data;
+        break;
+      case 2:
+        todos = this.data.filter(i => i.completed == false);
+        break;
+      case 3:
+        todos = this.data.filter(i => i.completed == true);
+        break;
+      default:
+        break;
+    }
+
+    return todos;
   }
 
-  filterCompleted(key) {
+  filter(key) {
     this.setState({
-      todos: this.data.filter(i => i.completed == true),
+      todos: this.getTodos(key),
       activeModel: key
     });
   }
@@ -169,15 +177,14 @@ class AppComponent extends React.Component {
           item left
         </span>
         <ul className="filters">
-        //TODO: 1, 2, 3 change to const
           <li>
-            <a key={1} className={(this.state.activeModel == 1) ? 'selected' : ''} href="#/" onClick={this.filterAll.bind(this, 1)}>All</a>
+            <a key={1} className={(this.state.activeModel == 1) ? 'selected' : ''} href="#/" onClick={this.filter.bind(this, 1)}>All</a>
           </li>
           <li>
-            <a key={2} className={(this.state.activeModel == 2) ? 'selected' : ''} href="#/active" onClick={this.filterActive.bind(this, 2)}>Active</a>
+            <a key={2} className={(this.state.activeModel == 2) ? 'selected' : ''} href="#/active" onClick={this.filter.bind(this, 2)}>Active</a>
           </li>
           <li>
-            <a key={3} className={(this.state.activeModel == 3) ? 'selected' : ''} href="#/completed" onClick={this.filterCompleted.bind(this, 3)}>Completed</a>
+            <a key={3} className={(this.state.activeModel == 3) ? 'selected' : ''} href="#/completed" onClick={this.filter.bind(this, 3)}>Completed</a>
           </li>
         </ul>
         {clearButton}
