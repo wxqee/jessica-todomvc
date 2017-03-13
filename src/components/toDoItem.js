@@ -18,7 +18,7 @@ class ToDoItem extends React.Component {
     });
   }
 
-  toogle() {
+  toogleChecked() {
     let newStatus = !this.state.completed;
     
     this.setState({completed: newStatus});
@@ -62,6 +62,14 @@ class ToDoItem extends React.Component {
     this.setState({editing: false});
   }
 
+  doubleClick() {
+    this.setState({
+      editing: true
+    }, () => {
+      this.refs.editing.focus();
+    });
+  }
+
   render() {
     const {item} = this.props;
 
@@ -79,8 +87,8 @@ class ToDoItem extends React.Component {
     return (
       <li className={className}>
         <div className="view">
-          <input className="toggle" type="checkbox" checked={this.state.completed} onChange={this.toogle.bind(this)}/>
-          <label onDoubleClick={() => {this.setState({editing: true})}}>{item.title}</label>
+          <input className="toggle" type="checkbox" checked={this.state.completed} onChange={this.toogleChecked.bind(this)}/>
+          <label onDoubleClick={this.doubleClick.bind(this)}>{item.title}</label>
           <button className="destroy" onClick={this.onDelete.bind(this)} />
         </div>
         <input

@@ -28,6 +28,7 @@ class AppComponent extends React.Component {
       }
     ];
     this.nextId = 3;
+    this.completed = true;
 
     this.state = {
       isDataChange: false,
@@ -78,7 +79,8 @@ class AppComponent extends React.Component {
     this.data.splice(aimIndex, 1);
 
     this.setState({
-      isDataChange: true
+      isDataChange: true,
+      todos: this.getTodos(this.state.activeModel)
     });
   }
 
@@ -92,7 +94,9 @@ class AppComponent extends React.Component {
       }
     });
 
-    this.setState({isDataChange: true});
+    this.setState({
+      isDataChange: true
+    });
   }
 
   toDoStatusChange(id, status) {
@@ -105,10 +109,31 @@ class AppComponent extends React.Component {
     });
   }
 
+  getDisplayStyle() {
+    let dataLength = this.data.length;
+    let display = 'block';
+
+    if(dataLength <= 0) {
+      display = 'none';
+    }
+
+    return display;
+  }
+
+  toogleAll() {
+    this.data.map(i => {i.completed = this.completed});
+    this.completed = !this.completed;
+
+    this.setState({
+      isDataChange: true,
+      todos: this.getTodos(this.state.activeModel)
+    });
+  }
+
   renderMain() {
     return (
-      <section className="main">
-        <input className="toggle-all" type="checkbox" />
+      <section className="main" style={{display: this.getDisplayStyle()}}>
+        <input className="toggle-all" type="checkbox" onClick={this.toogleAll.bind(this)}/>
         {/*<label for="toggle-all">Mark all as complete</label>*/}
         <ul className="todo-list">
           {
@@ -174,7 +199,7 @@ class AppComponent extends React.Component {
     }
 
     return (
-      <footer className="footer">
+      <footer className="footer" style={{display: this.getDisplayStyle()}}>
         <span className="todo-count">
           <strong>
             {this.data.filter(i => i.completed === false).length}
