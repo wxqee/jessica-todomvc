@@ -8,14 +8,15 @@ class Tasks extends React.Component{
 
 	render(){
 		let taskList = this.props.taskList;
-		let taskItems = taskList.map((taskName,i) => <Task taskInfo={taskName}
-																											 key={i}
+		console.log("taskList",taskList);
+		let taskItems = taskList.map((taskInfo,i) => <Task taskInfo={taskInfo}
+																											 key={taskInfo.taskName+i}
 																											 addNewTask={this.props.addNewTask}
 																											 removeThisItem={this.props.removeThisItem.bind(this,i)}
 																											 changeTaskName={this.props.changeTaskName.bind(this,i)}
 																											 completeClicked={this.props.completeClicked.bind(this,i)}/>);
 		return(
-			<ul className="todo-list" >
+			<ul className="todo-list">
 				{taskItems}
 			</ul>
 		)

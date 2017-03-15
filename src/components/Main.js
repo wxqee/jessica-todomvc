@@ -5,123 +5,140 @@ import React from 'react';
 import Header from './header.jsx';
 import Footer from './Footer.jsx';
 import Footernote from './Footernote.jsx';
-import Tasks from './tasks.jsx';
-// let yeomanImage = require('../images/yeoman.png');
+import Task from './task.jsx';
 
 class AppComponent extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
       taskList: [],
-      displayView:[true,false,false]
+      displayView: 0,
+      toggleAll: false
     }
   }
 
-  addNewTask(taskName){
-    let taskList = this.state.taskList;
-    taskList.push({'taskName':taskName,'complete':false});
+  toggleAll() {
+    if(!this.state.taskList.length)
+      return;
+
+    let toggleAll = !this.state.toggleAll;
     this.setState({
-      taskList:taskList
+      toggleAll: toggleAll
+    });
+
+    for(let i=0;i<this.state.taskList.length;i++){
+      this.state.taskList[i].complete = toggleAll;
+    }
+  }
+
+
+  addNewTask(taskName) {
+    let taskList = this.state.taskList;
+    taskList.push({
+      'taskName': taskName,
+      'complete': false
+    });
+    this.setState({
+      taskList: taskList
     });
   }
 
-  removeThisItem(i){
-    console.log(i);
-    let taskList=this.state.taskList;
-    console.log(taskList[i]);
-    taskList.splice(i,1);
+  removeThisItem(i) {
+    let taskList = this.state.taskList;
+    taskList.splice(i, 1);
     this.setState({
       taskList: taskList
     })
   }
 
-  changeTaskName(i,newTaskName){
-    let taskList=this.state.taskList;
-    taskList[i].taskName=newTaskName;
-    if(newTaskName.length === 0){
-      taskList.splice(i,1);
+  changeTaskName(i, newTaskName) {
+    let taskList = this.state.taskList;
+    taskList[i].taskName = newTaskName;
+    if (newTaskName.length === 0) {
+      taskList.splice(i, 1);
     }
     this.setState({
-      taskList:taskList
+      taskList: taskList
     });
   }
 
-  completeClicked(i){
-    let taskList=this.state.taskList;
+  completeClicked(i) {
+    let taskList = this.state.taskList;
 
-    taskList[i].complete=!taskList[i].complete;
+    taskList[i].complete = !taskList[i].complete;
 
     this.setState({
-      taskList:taskList
+      taskList: taskList
     })
   }
 
-  clearCompleted(){
-    let taskNameList=this.state.taskList;
+  clearCompleted() {
+    let taskNameList = this.state.taskList;
 
-    for(let i=this.state.taskList.length;i>0;i--){
-      if(taskNameList[i-1].complete===true){
-        taskNameList.splice(i-1,1);
+    for (let i = this.state.taskList.length; i > 0; i--) {
+      if (taskNameList[i - 1].complete === true) {
+        taskNameList.splice(i - 1, 1);
       }
     }
 
     this.setState({
-      taskList:taskNameList
+      taskList: taskNameList
     });
   }
 
-  showActive(){
+  showActive() {
     this.setState({
-      displayView:[false,true,false]
+      displayView: 1
     });
   }
 
-  showCompleted(){
+  showCompleted() {
     this.setState({
-      displayView:[false,false,true]
+      displayView: 2
     });
   }
 
-  showAll(){
+  showAll() {
     this.setState({
-      displayView:[true,false,false]
+      displayView: 0
     })
   }
 
   render() {
+    let taskList=this.state.taskList;
     let completeList=[];
     let activeList=[];
-    let taskList;
+    let displayView = this.state.displayView;
+
     for(let i=0;i<this.state.taskList.length;i++){
       if(this.state.taskList[i].complete===true){
         completeList.push(this.state.taskList[i]);
-      } else if(this.state.taskList[i].complete===false){
+      } else if(this.state.taskList[i].complete === false){
         activeList.push(this.state.taskList[i]);
       }
     }
-
-    let displayView=this.state.displayView.indexOf(true);
-
-    if(displayView===0){
-      taskList=this.state.taskList;
-    } else if(displayView === 1){
-      taskList=activeList;
-    } else if(displayView === 2){
-      taskList=completeList;
+    if(displayView == 1){
+      taskList = activeList;
+    } else if(displayView == 2){
+      taskList = completeList;
     }
+    let taskItems = taskList.map((taskInfo,i) => <Task taskInfo={taskInfo}
+                                                       key={taskInfo.taskName+i}
+                                                       addNewTask={this.addNewTask.bind(this)}
+                                                       removeThisItem={this.removeThisItem.bind(this,i)}
+                                                       changeTaskName={this.changeTaskName.bind(this,i)}
+                                                       completeClicked={this.completeClicked.bind(this,i)}/>);
 
     return (
       <div>
         <section className="todoapp">
           <Header addNewTask={this.addNewTask.bind(this)}/>
           <section className="main" >
-            <input className="toggle-all" type="checkbox"/>
-            <Tasks taskList={taskList}
-                   addNewTask={this.addNewTask.bind(this)}
-                   removeThisItem={this.removeThisItem.bind(this)}
-                   changeTaskName={this.changeTaskName.bind(this)}
-                   completeClicked={this.completeClicked.bind(this)}/>
+            <input className="toggle-all" type="checkbox"  onClick={this.toggleAll.bind(this)} />
+            <ul className="todo-list">
+              {taskItems}
+            </ul>
           </section>
           <Footer taskNumber={this.state.taskList.length}
                   completeList={completeList.length}

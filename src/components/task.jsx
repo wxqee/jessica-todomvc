@@ -16,24 +16,19 @@ class Task extends React.Component{
 	handleDoubleClick(evt){
 		/*add the editing class name*/
 		let editInput = evt.target.parentNode.nextSibling;
-		let editingClassName = evt.target.parentNode.parentNode.className.trim().concat(" editing");
-		evt.target.parentNode.parentNode.className = editingClassName;
+		evt.target.parentNode.parentNode.className = 'editing';
 		if(editInput.autoFocus != true){
 			if(editInput.setSelectionRange){
 				editInput.focus();
-			} else if(editInput.createTextRange){
-				let range=editInput.createTextRange();
-				range.collapse(true);
 			}
 		}
 
 		/*give the text in label to editing input*/
-		let labelText=this.state.taskName;
-		evt.target.parentNode.nextSibling.value=labelText;
+		evt.target.parentNode.nextSibling.value=this.state.taskName;
 	}
 
 	handleOnBlur(evt){
-		let classNames=evt.target.parentNode.className.replace('editing','').trim();
+		let classNames='';
 		evt.target.parentNode.className=classNames;
 
 		this.props.changeTaskName(this.state.taskName);
@@ -46,8 +41,7 @@ class Task extends React.Component{
 		}
 
 		this.refs.taskLabel.innerHTML=this.state.taskName;
-		let classNames=this.refs.taskLabel.parentNode.parentNode.className.replace('editing','').trim();
-		this.refs.taskLabel.parentNode.parentNode.className = classNames;
+		this.refs.taskLabel.parentNode.parentNode.className = this.refs.taskLabel.parentNode.parentNode.className.replace('editing','').trim();
 		this.props.changeTaskName(this.state.taskName);
 	}
 
@@ -58,25 +52,15 @@ class Task extends React.Component{
 	}
 
 	render(){
-		let taskName=this.props.taskInfo.taskName;
-		let complete=this.props.taskInfo.complete;
-		let taskLiClass;
-		let checked;
+		let taskName=this.state.taskName;
 
-		if(complete === true){
-			taskLiClass = 'completed';
-			checked=true;
-		} else {
-			taskLiClass='';
-			checked=false;
-		}
 		if(taskName.length === 0){
 			return null;
 		} else {
 			return(
-				<li className={taskLiClass}>
+				<li className={this.props.taskInfo.complete ? 'completed':''}>
 					<div className="view">
-						<input className="toggle" type="checkbox" onClick={this.complete.bind(this)} checked={checked}/>
+						<input className="toggle" type="checkbox" onClick={this.complete.bind(this)} checked={this.props.taskInfo.complete}/>
 						<label onDoubleClick={this.handleDoubleClick.bind(this)} ref="taskLabel">{taskName}</label>
 						<button className="destroy" onClick={this.props.removeThisItem.bind(this)} />
 					</div>

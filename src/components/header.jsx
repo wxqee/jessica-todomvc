@@ -12,9 +12,9 @@ class Header extends React.Component {
 		if(target.charCode != 13){
 			return;
 		}
+
 		if(this.state.value.trim()){
 			this.props.addNewTask(this.state.value);
-			this.refs.newTaskInput.value=null;
 			this.setState({
 				value:''
 			})
@@ -34,7 +34,7 @@ class Header extends React.Component {
         <input className="new-todo"
 							 placeholder="What needs to be done?"
 							 autoFocus
-							 ref="newTaskInput"
+							 value={this.state.value}
 							 onKeyPress={this._handleKeyPress.bind(this)}
 							 onChange={this.onChange.bind(this)}/>
       </header>
