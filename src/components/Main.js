@@ -1,6 +1,7 @@
 require('normalize.css/normalize.css');
 require('styles/App.css');
 
+//just for testing
 import React from 'react';
 
 class AppComponent extends React.Component {
