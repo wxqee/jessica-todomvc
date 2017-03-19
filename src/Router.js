@@ -4,15 +4,15 @@ import {
   Route,
   hashHistory
 } from 'react-router';
-import App from './components/Main';
+import TodoApp from './components/todoApp';
 
 export default class AppRouter extends React.Component {
   render() {
     return (
       <Router history={hashHistory}>
-        <Route path='/' component={App} />
-        <Route path='/active' component={App} />
-        <Route path='/completed' component={App} />
+        <Route path='/' component={TodoApp} />
+        <Route path='/active' component={TodoApp} />
+        <Route path='/completed' component={TodoApp} />
       </Router>
     );
   }

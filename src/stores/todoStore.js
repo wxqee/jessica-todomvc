@@ -1,14 +1,14 @@
-import alt from '../../alt.js';
-import todoActions from '../actions/todoActions.js';
+import alt from '../alt.js';
+import TodoActions from '../actions/todoActions.js';
 
-class todoStore {
+class TodoStore {
 	constructor() {
 		this.bindListeners({
-			handleAddTodo: todoActions.addTodo
+			handleAddTodo: TodoActions.addTodo
 		});
 	}
 
-
+	handleAddTodo() {}
 }
 
-module.exports = alt.createrStore(todoStore, 'todoStore');
+export default alt.createStore(TodoStore, 'TodoStore');

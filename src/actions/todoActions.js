@@ -1,6 +1,6 @@
-import alt from '../../alt.js';
+import alt from '../alt.js';
 
-const todoActions = alt.generateActions(
+const TodoActions = alt.generateActions(
 	'addTodo'
 );
 

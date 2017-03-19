@@ -1,23 +1,23 @@
 import React from 'react';
-import AltContainer from 'alt/AltContainer';
-import todoStore from './todoStore.js';
+import AltContainer from 'alt-container';
+import TodoStore from '../stores/todoStore.js';
 import AppComponent from './Main.js';
 
-class todoApp extends React.Component {
+class TodoApp extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
 	render() {
 		return (
-			<AltContainer store={todoStore}>
+			<AltContainer store={TodoStore}>
 				<AppComponent />
 			</AltContainer>
 		);
 	}
 }
 
-todoApp.defaultProps = {
+TodoApp.defaultProps = {
 };
 
-export default todoApp;
+export default TodoApp;

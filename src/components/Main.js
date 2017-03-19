@@ -52,13 +52,13 @@ class AppComponent extends React.Component {
         {/*Remove this if you don't implement routing*/}
         <ul className="filters">
           <li>
-            <Link to="#/" activeClassName="selected">All</Link>
+            <Link to="/" activeClassName="selected">All</Link>
           </li>
           <li>
-            <Link to="#/active" activeClassName="selected">Active</Link>
+            <Link to="/active" activeClassName="selected">Active</Link>
           </li>
           <li>
-            <Link to="#/completed" activeClassName="selected">Completed</Link>
+            <Link to="/completed" activeClassName="selected">Completed</Link>
           </li>
         </ul>
         {/*Hidden if no completed items are left ↓*/}
