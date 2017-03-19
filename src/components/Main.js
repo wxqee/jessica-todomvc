@@ -1,8 +1,8 @@
 require('normalize.css/normalize.css');
 require('styles/App.css');
 
-//just for testing
 import React from 'react';
+import {Link} from 'react-router';
 
 class AppComponent extends React.Component {
 
@@ -52,13 +52,13 @@ class AppComponent extends React.Component {
         {/*Remove this if you don't implement routing*/}
         <ul className="filters">
           <li>
-            <a className="selected" href="#/">All</a>
+            <Link to="#/" activeClassName="selected">All</Link>
           </li>
           <li>
-            <a href="#/active">Active</a>
+            <Link to="#/active" activeClassName="selected">Active</Link>
           </li>
           <li>
-            <a href="#/completed">Completed</a>
+            <Link to="#/completed" activeClassName="selected">Completed</Link>
           </li>
         </ul>
         {/*Hidden if no completed items are left ↓*/}
@@ -76,7 +76,6 @@ class AppComponent extends React.Component {
           {this.renderMain()}
 
           {this.renderFooter()}
-
         </section>
       </div>
     );

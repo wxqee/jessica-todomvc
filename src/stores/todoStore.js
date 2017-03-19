@@ -1,8 +1,11 @@
 import alt from '../../alt.js';
+import todoActions from '../actions/todoActions.js';
 
 class todoStore {
 	constructor() {
-		this.bindListeners({});
+		this.bindListeners({
+			handleAddTodo: todoActions.addTodo
+		});
 	}
 
 

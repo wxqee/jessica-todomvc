@@ -1,7 +1,7 @@
 import alt from '../../alt.js';
 
-class todoActions {
-	
-}
+const todoActions = alt.generateActions(
+	'addTodo'
+);
 
-module.exports = alt.createActions(todoActions);
+export default TodoActions;
