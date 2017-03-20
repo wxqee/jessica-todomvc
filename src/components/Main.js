@@ -3,8 +3,16 @@ require('styles/App.css');
 
 import React from 'react';
 import {Link} from 'react-router';
+import TodoItem from './todoItem.js';
 
+/*eslint-disable no-console, no-unused-vars*/
 class AppComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+    };
+  }
 
   renderHeader() {
     return (
@@ -16,33 +24,47 @@ class AppComponent extends React.Component {
   }
 
   renderMain() {
-    return (
+    return(
       <section className="main">
         <input className="toggle-all" type="checkbox" />
         {/*<label for="toggle-all">Mark all as complete</label>*/}
         <ul className="todo-list">
-          {/*These are here just to show the structure of the list items*/}
-          {/*List items should get the class `editing` when editing and `completed` when marked as completed*/}
-          <li className="completed">
-            <div className="view">
-              <input className="toggle" type="checkbox" checked />
-              <label>Taste JavaScript</label>
-              <button className="destroy" />
-            </div>
-            <input className="edit" value="Create a TodoMVC template" />
-          </li>
-          <li>
-            <div className="view">
-              <input className="toggle" type="checkbox" />
-              <label>Buy a unicorn</label>
-              <button className="destroy" />
-            </div>
-            <input className="edit" value="Rule the web" />
-          </li>
+          {
+            this.props.store.todos.map(todo => <TodoItem key={todo.id} todo={todo} />)
+          }
         </ul>
       </section>
     );
   }
+
+  // renderMain() {
+  //   return (
+  //     <section className="main">
+  //       <input className="toggle-all" type="checkbox" />
+  //       {/*<label for="toggle-all">Mark all as complete</label>*/}
+  //       <ul className="todo-list">
+  //         {/*These are here just to show the structure of the list items*/}
+  //         {/*List items should get the class `editing` when editing and `completed` when marked as completed*/}
+  //         <li className="completed">
+  //           <div className="view">
+  //             <input className="toggle" type="checkbox" checked />
+  //             <label>Taste JavaScript</label>
+  //             <button className="destroy" />
+  //           </div>
+  //           <input className="edit" value="Create a TodoMVC template" />
+  //         </li>
+  //         <li>
+  //           <div className="view">
+  //             <input className="toggle" type="checkbox" />
+  //             <label>Buy a unicorn</label>
+  //             <button className="destroy" />
+  //           </div>
+  //           <input className="edit" value="Rule the web" />
+  //         </li>
+  //       </ul>
+  //     </section>
+  //   );
+  // }
 
   renderFooter() {
     return (

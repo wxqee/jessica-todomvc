@@ -6,8 +6,9 @@ import {
 } from 'react-router';
 import TodoApp from './components/todoApp';
 
+/*eslint-disable no-console, no-unused-vars*/
 export default class AppRouter extends React.Component {
-  render() {
+ render() {
     return (
       <Router history={hashHistory}>
         <Route path='/' component={TodoApp} />
