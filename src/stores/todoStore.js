@@ -3,13 +3,7 @@ import TodoActions from '../actions/todoActions.js';
 
 class TodoStore {
 	constructor() {
-		this.todos = [
-			{
-				id: 1,
-				completed: true,
-				title: 'a'
-			}
-		];
+		this.todos = [];
 
 		this.bindListeners({
 			handleAddTodo: TodoActions.addTodo
