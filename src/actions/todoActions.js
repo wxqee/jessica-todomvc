@@ -1,7 +1,7 @@
 import alt from '../alt.js';
 
 const TodoActions = alt.generateActions(
-	'addTodo'
+	'newTodo'
 );
 
 export default TodoActions;
