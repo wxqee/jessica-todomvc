@@ -4,7 +4,8 @@ require('styles/App.css');
 import React from 'react';
 import {Link} from 'react-router';
 import TodoItem from './todoItem.js';
-import {Input} from './todoComponents.js';
+import {Input, ClearButton} from './todoComponents.js';
+import {isCompletedMode, isActiveMode} from './todoUtil.js';
 
 /*eslint-disable no-console, no-unused-vars*/
 class AppComponent extends React.Component {
@@ -22,13 +23,19 @@ class AppComponent extends React.Component {
   }
 
   renderMain() {
+    const list = isCompletedMode() && this.props.completedTodos || isActiveMode() && this.props.activeTodos || this.props.todos;
+
+    if(this.props.todos.length <= 0) {
+      return null;
+    }
+
     return(
       <section className="main">
         <input className="toggle-all" type="checkbox" />
         {/*<label for="toggle-all">Mark all as complete</label>*/}
         <ul className="todo-list">
           {
-            this.props.todos.map(todo => <TodoItem key={todo.id} todo={todo} />)
+            list.map(todo => <TodoItem key={todo.id} todo={todo} />)
           }
         </ul>
       </section>
@@ -36,6 +43,10 @@ class AppComponent extends React.Component {
   }
 
   renderFooter() {
+    if(this.props.todos.length <= 0) {
+      return null;
+    }
+
     return (
       <footer className="footer">
         {/*This should be `0 items left` by default*/}
@@ -52,8 +63,8 @@ class AppComponent extends React.Component {
             <Link to="/completed" activeClassName="selected">Completed</Link>
           </li>
         </ul>
-        {/*Hidden if no completed items are left ↓*/}
-        <button className="clear-completed">Clear completed</button>
+
+        <ClearButton />
       </footer>
     );
   }

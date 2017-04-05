@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoActions from './actions/todoActions.js';
+import TodoActions from '../actions/todoActions.js';
 
 const ENTER_KEY = 13;
 
@@ -32,3 +32,16 @@ export class Input extends React.Component {
 		);
 	}
 }
+
+export class ClearButton extends React.Component {
+	render() {
+		return (
+			<button
+				className="clear-completed">
+					Clear completed
+			</button>
+		);
+	}
+}
+
+
