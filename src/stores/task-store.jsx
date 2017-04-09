@@ -5,8 +5,13 @@ import TaskActions from '../actions/task-actions';
 class TaskStore{
 	constructor(){
 		// this.taskList=[{'taskName':'Take a nap', 'complete': true }, {'taskName':'Take a shower', 'complete': false}];
-		this.taskList = JSON.parse(localStorage.getItem('taskList'));
-		// console.log(taskList);
+		this.taskList = JSON.parse(localStorage.getItem('taskList')); 
+
+		if(localStorage.getItem('taskList')){
+     	  this.taskList = JSON.parse(localStorage.getItem('taskList')); 
+		} else {
+			this.taskList = [];
+		}
 
 		this.bindListeners({
 			handleFetchTask: TaskActions.FETCH_TASK,
