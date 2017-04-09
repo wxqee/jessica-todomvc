@@ -4,10 +4,9 @@ require('styles/App.css');
 import React from 'react';
 import {Link} from 'react-router';
 import TodoItem from './todoItem.js';
-import {Input, ClearButton} from './todoComponents.js';
+import {Input, ClearButton, MarkAllAsCompleted} from './todoComponents.js';
 import {isCompletedMode, isActiveMode} from './todoUtil.js';
 
-/*eslint-disable no-console, no-unused-vars*/
 class AppComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -31,8 +30,8 @@ class AppComponent extends React.Component {
 
     return(
       <section className="main">
-        <input className="toggle-all" type="checkbox" />
-        {/*<label for="toggle-all">Mark all as complete</label>*/}
+        <MarkAllAsCompleted {...this.props} />
+
         <ul className="todo-list">
           {
             list.map(todo => <TodoItem key={todo.id} todo={todo} />)
@@ -49,9 +48,9 @@ class AppComponent extends React.Component {
 
     return (
       <footer className="footer">
-        {/*This should be `0 items left` by default*/}
-        <span className="todo-count"><strong>0</strong> item left</span>
-        {/*Remove this if you don't implement routing*/}
+
+        <span className="todo-count"><strong>{this.props.activeTodos.length}</strong> item left</span>
+        
         <ul className="filters">
           <li>
             <Link to="/" activeClassName="selected">All</Link>
@@ -84,7 +83,16 @@ class AppComponent extends React.Component {
   }
 }
 
+AppComponent.propTypes = {
+  todos: React.PropTypes.arrayOf(React.PropTypes.shape({
+    id: React.PropTypes.string,
+    title: React.PropTypes.string,
+    completed: React.PropTypes.bool
+  }))
+};
+
 AppComponent.defaultProps = {
+  todos: []
 };
 
 export default AppComponent;

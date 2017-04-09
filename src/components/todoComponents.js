@@ -3,15 +3,7 @@ import TodoActions from '../actions/todoActions.js';
 
 const ENTER_KEY = 13;
 
-/*eslint-disable no-console, no-alert*/
 export class Input extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.handleEnter = this.handleEnter.bind(this);
-
-	}
-
 	handleEnter(e) {
 		let title = this.inputRef.value.trim();
 		if(e.keyCode === ENTER_KEY && title.length > 0) {
@@ -26,7 +18,7 @@ export class Input extends React.Component {
 				ref={ref => this.inputRef = ref}
 				className="new-todo"
 				placeholder="What needs to be done?"
-				onKeyDown={this.handleEnter}
+				onKeyDown={this.handleEnter.bind(this)}
 				autoFocus
 			/>
 		);
@@ -34,14 +26,41 @@ export class Input extends React.Component {
 }
 
 export class ClearButton extends React.Component {
+	clearCompletedTodos() {
+		TodoActions.clearCompletedTodos();
+	}
+
 	render() {
 		return (
 			<button
-				className="clear-completed">
-					Clear completed
+				className="clear-completed"
+				onClick={this.clearCompletedTodos.bind(this)}
+			>
+				Clear completed
 			</button>
 		);
 	}
 }
+
+export class MarkAllAsCompleted extends React.Component {
+	markAllAsCompleted() {
+		if(this.props.completedTodos.length < this.props.todos.length) {
+			TodoActions.toggleAllCompleted(true);
+		} else {
+			TodoActions.toggleAllCompleted(false);
+		}
+	}
+
+	render() {
+		return (
+			<input
+	          className="toggle-all"
+	          type="checkbox"
+	          onClick={this.markAllAsCompleted.bind(this)}
+	        />
+		);
+	}
+}
+
 
 

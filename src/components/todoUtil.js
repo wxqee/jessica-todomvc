@@ -1,5 +1,4 @@
 export function uuid() {
-	//GUID?
 	var i, random;
 	var uuid = '';
 
@@ -16,7 +15,13 @@ export function uuid() {
 }
 
 export function store(key, value) {
-	localStorage.setItem(key, JSON.stringify(value));
+	if(value) {
+		localStorage.setItem(key, JSON.stringify(value));
+	}
+
+	let _value = localStorage.getItem(key);
+
+	return _value && JSON.parse(_value) || [];
 }
 
 export const isCompletedMode = () => {
