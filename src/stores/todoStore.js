@@ -1,6 +1,6 @@
 import alt from '../alt.js';
 import TodoActions from '../actions/todoActions.js';
-import {uuid, store} from '../components/todoUtil.js';
+import {uuid, store} from '../utils/todoUtil.js';
 
 const APP_NAME = 'todos_APP';
 

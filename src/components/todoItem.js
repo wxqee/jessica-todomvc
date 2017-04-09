@@ -4,7 +4,6 @@ import TodoActions from '../actions/todoActions.js';
 const ENTER_KEY = 13;
 const ESCAPE_KEY = 27;
 
-/*eslint-disable no-console*/
 export default class TodoItem extends React.Component {
 	constructor(props) {
 		super(props);
@@ -34,7 +33,6 @@ export default class TodoItem extends React.Component {
 	}
 
 	deleteTodo() {
-		debugger;
 		TodoActions.deleteTodo(this.props.todo.id);
 	}
 

@@ -5,7 +5,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import TodoItem from './todoItem.js';
 import {Input, ClearButton, MarkAllAsCompleted} from './todoComponents.js';
-import {isCompletedMode, isActiveMode} from './todoUtil.js';
+import {isCompletedMode, isActiveMode} from '../utils/todoUtil.js';
 
 class AppComponent extends React.Component {
   constructor(props) {
