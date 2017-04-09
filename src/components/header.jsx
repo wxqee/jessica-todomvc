@@ -1,4 +1,5 @@
 import React from 'react';
+import TaskActions from '../actions/task-actions.jsx';
 
 class Header extends React.Component {
 	constructor(props) {
@@ -14,7 +15,7 @@ class Header extends React.Component {
 		}
 
 		if(this.state.value.trim()){
-			this.props.addNewTask(this.state.value);
+			TaskActions.addNewTask(this.state.value.trim());
 			this.setState({
 				value:''
 			})

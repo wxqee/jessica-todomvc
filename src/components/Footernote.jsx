@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; 
 
 class Footernote extends React.Component{
 	constructor(){

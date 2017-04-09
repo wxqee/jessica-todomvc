@@ -1,8 +1,13 @@
 import React from 'react';
+import TaskActions from '../actions/task-actions.jsx';
 
 class Footer extends React.Component{
 	constructor(){
 		super();
+	}
+
+	clearCompleted(){
+		TaskActions.clearCompleted();
 	}
 
 	render(){
@@ -13,7 +18,7 @@ class Footer extends React.Component{
 
 		liClass[this.props.displayView] = 'selected';
 
-		let clearCompletedIcon=completeList===0 ? null:<button className="clear-completed" onClick={this.props.clearCompleted}>Clear completed</button>;
+		let clearCompletedIcon=completeList===0 ? null:<button className="clear-completed" onClick={this.clearCompleted}>Clear completed</button>;
 
 		if(this.props.taskNumber === 0){
 			return null;

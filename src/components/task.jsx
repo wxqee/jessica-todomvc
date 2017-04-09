@@ -1,4 +1,5 @@
 import React from 'react';
+import TaskActions from '../actions/task-actions.jsx';
 
 class Task extends React.Component{
 	constructor(props){
@@ -9,8 +10,8 @@ class Task extends React.Component{
 		}
 	}
 
-	complete(){
-		this.props.completeClicked();
+	complete(){ 
+		TaskActions.complete(this.props.numberTag);
 	}
 
 	handleDoubleClick(evt){
@@ -30,8 +31,8 @@ class Task extends React.Component{
 	handleOnBlur(evt){
 		let classNames='';
 		evt.target.parentNode.className=classNames;
-
-		this.props.changeTaskName(this.state.taskName);
+ 
+		TaskActions.taskModified([this.props.numberTag, this.state.taskName]);
 		this.refs.taskLabel.parentNode.parentNode.className = classNames;
 	}
 
@@ -42,13 +43,17 @@ class Task extends React.Component{
 
 		this.refs.taskLabel.innerHTML=this.state.taskName;
 		this.refs.taskLabel.parentNode.parentNode.className = this.refs.taskLabel.parentNode.parentNode.className.replace('editing','').trim();
-		this.props.changeTaskName(this.state.taskName);
+		TaskActions.taskModified([this.props.numberTag, this.state.taskName]);
 	}
 
 	onChange(evt) {
 		this.setState({
 			taskName:evt.target.value
 		});
+	}
+
+	removeThisItem(){
+		TaskActions.removeItem(this.props.numberTag);
 	}
 
 	render(){
@@ -62,7 +67,8 @@ class Task extends React.Component{
 					<div className="view">
 						<input className="toggle" type="checkbox" onClick={this.complete.bind(this)} checked={this.props.taskInfo.complete}/>
 						<label onDoubleClick={this.handleDoubleClick.bind(this)} ref="taskLabel">{taskName}</label>
-						<button className="destroy" onClick={this.props.removeThisItem.bind(this)} />
+						<button className="destroy" onClick={this.removeThisItem.bind(this)} 
+						        />
 					</div>
 					<input className="edit"
 								 onBlur={this.handleOnBlur.bind(this)}
